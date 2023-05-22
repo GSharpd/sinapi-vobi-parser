@@ -18,6 +18,9 @@ for filename in os.listdir(input_directory):
 
         # Load spreadsheet skipping the first 5 rows as they do not contain column names
         xls_file = pd.read_excel(input_filepath, skiprows=5)
+        
+        # Filter out blank rows
+        xls_file = xls_file[xls_file['CODIGO DA COMPOSICAO'].notna()]
 
         # Prepare a dictionary to apply the mapping
         mapping = {
