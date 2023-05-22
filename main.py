@@ -27,7 +27,7 @@ for filename in os.listdir(input_directory):
                             np.where(xls_file['TIPO ITEM'] == 'INSUMO', 'Produto', 
                                     np.where(xls_file['TIPO ITEM'] == 'COMPOSICAO', 'Serviço', xls_file['TIPO ITEM']))),
             "Nome": np.where(xls_file['TIPO ITEM'].isnull() | xls_file['TIPO ITEM'].eq(''), xls_file['DESCRICAO DA COMPOSICAO'], xls_file['DESCRIÇÃO ITEM']),
-            "Quantidade": pd.to_numeric(xls_file['COEFICIENTE'], errors='coerce'), # convert to numeric
+            "Quantidade": xls_file['COEFICIENTE'],
             "Un": np.where(xls_file['UNIDADE ITEM'].isnull() | xls_file['UNIDADE ITEM'].eq(''), xls_file['UNIDADE'], xls_file['UNIDADE ITEM']),
             "Custo unitário": xls_file['PRECO UNITARIO'],
             "Classe": np.where(xls_file['TIPO ITEM'].isnull() | xls_file['TIPO ITEM'].eq(''), xls_file['SIGLA DA CLASSE'], ''),
