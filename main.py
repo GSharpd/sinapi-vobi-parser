@@ -13,6 +13,8 @@ os.makedirs(output_directory, exist_ok=True)  # create output directory if it do
 for filename in os.listdir(input_directory):
     # Only process .xls files
     if filename.endswith(".xls"):
+        pd.set_option('display.max_colwidth', 255)
+        
         # Full path to the input file
         input_filepath = os.path.join(input_directory, filename)
 
@@ -32,7 +34,7 @@ for filename in os.listdir(input_directory):
             "Nome": np.where(xls_file['TIPO ITEM'].isnull() | xls_file['TIPO ITEM'].eq(''), xls_file['DESCRICAO DA COMPOSICAO'], xls_file['DESCRIÇÃO ITEM']),
             "Quantidade": pd.to_numeric(xls_file['COEFICIENTE'].str.replace(',', '.')), # replace comma with period and convert to numeric
             "Un": np.where(xls_file['UNIDADE ITEM'].isnull() | xls_file['UNIDADE ITEM'].eq(''), xls_file['UNIDADE'], xls_file['UNIDADE ITEM']),
-            "Custo unitário": xls_file['PRECO UNITARIO'],
+            "Custo unitário": pd.to_numeric(xls_file['PRECO UNITARIO'].str.replace('.', '').str.replace(',', '.')), # replace period with nothing and comma with period and convert to numeric
             "Classe": np.where(xls_file['TIPO ITEM'].isnull() | xls_file['TIPO ITEM'].eq(''), xls_file['SIGLA DA CLASSE'], ''),
         }
 
